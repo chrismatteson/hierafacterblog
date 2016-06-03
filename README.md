@@ -25,7 +25,7 @@ Quickly from there the conversation moves onto how to create the facts for %{tea
 
 Ultimately the goal is to find a way which can programatically determine the answer to what is the X for this node?  To do this, we look to what pieces of information are already a part of or attached to the node.  I'll outline these appraoches below:
 
-# Hostname
+## Hostname
 Sysadmins have been attaching metadata to servers for a very long time in the form of hostnames.  Many organizations still tag information such as datacenter, application and team in the name of the system.  Facter by default already creates a fact for hostname, so we can parse that existing fact to generate new facts.
 
 These examples are custom ruby facts, they can be added into any module in the <module/lib/facter directory as .rb files and will be copied to all of the nodes via pluginsync and executed.  The first example here simply takes the first four characters and turns them into a new fact.
@@ -46,14 +46,23 @@ A more complicated example below which takes from the 6th character until there 
     Facter.value(:hostname)[5..-1][/(.*?)(\-|\z)/,1]
 
 
-# Match value to table
+## Match value to table
 This is ugly, but sometimes it's the best option, particularly when the only way to determine the datacenter is via IP address.  The shortcoming of this approach is that it requires the fact to be updated whenever there is new potential value.
 
 xxxx
 
-# Drop Facts File
+## Read Metadata
+VMWare and AWS allow VMs to be tagged with metadata that can be read elsewhere.  Often times these types of tags are created already for the purpose of chargeback.  Those metadata tags can be turned into custom facts and used with Puppet as well.
+
+xxxx
+
+## Drop Facts File
 When there is no programatic way to determine the appropriate value, Facter supports the creation of this type of metadata via the create of fact files in /etc/puppetlabs/facter/facts.d .  These files can be in yaml, jsonor txt format.  There can even be executable scripts in this directory as long as they return key value pairs.  Generally I consider txt to be easiest as it's simply:
 
 key=value
 
-There can be any number of files each with any number of key value pairs in them in this directory.  Different files can have different formats in the same directory as well.  The choice on how to break up facts between multiple files or coonslidate them tends to relate more to how they are created.
+There can be any number of files each with any number of key value pairs in them in this directory.  Different files can have different formats in the same directory as well.  The choice on how to break up facts between multiple files or conslidate them tends to relate more to how they are created.
+
+Generally facts files work best when they are created at provisioning by the provisioning system.  Most workflows with vRA or UCS Director use this method to pass information from the provisioning system to Puppet.  It's relatively easy in any of these systems to create a file with the approriate values on the provisioned system, then install Puppet and let it handle the rest.
+
+xxxx
