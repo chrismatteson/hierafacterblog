@@ -30,17 +30,23 @@ Sysadmins have been attaching metadata to servers for a very long time in the fo
 
 These examples are custom ruby facts, they can be added into any module in the <module/lib/facter directory as .rb files and will be copied to all of the nodes via pluginsync and executed.  The first example here simply takes the first four characters and turns them into a new fact.
 
+```ruby
 Facter.add(:datacenter) do
   setcode do
     Facter.value(:hostname)[0..3]
   end
 end
+```
 
 If we wanted to get the 5th character to the 8th, we could modify the 3rd line as follows:
+```ruby
     Facter.value(:hostname)[4..7]
+```
 
 Or the 5th to the end of the line:
+```ruby
     Facter.value(:hostname)[4..-1]
+```
 
 A more complicated example below which takes from the 6th character until there is a - or the end of the hostname, whichever comes first:
     Facter.value(:hostname)[5..-1][/(.*?)(\-|\z)/,1]
@@ -66,10 +72,11 @@ There can be any number of files each with any number of key value pairs in them
 Generally facts files work best when they are created at provisioning by the provisioning system.  Most workflows with vRA or UCS Director use this method to pass information from the provisioning system to Puppet.  It's relatively easy in any of these systems to create a file with the approriate values on the provisioned system, then install Puppet and let it handle the rest.  An example of a file which might get created is below:
 
 facts.txt
+```text
 datacenter=portland
 application=doc
 team=TSE
-
+```
 
 ## Conclusion
 Hiera is one of the most powerful pieces of Puppet for enabling the reusability of code, but custom facts are a critical component to take advantage of it.  Starting with a sane but simple hierarchy and building a few simple custom facts can greatly accelerate the ability to adopt Puppet across your organization.
