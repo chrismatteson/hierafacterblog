@@ -63,6 +63,13 @@ key=value
 
 There can be any number of files each with any number of key value pairs in them in this directory.  Different files can have different formats in the same directory as well.  The choice on how to break up facts between multiple files or conslidate them tends to relate more to how they are created.
 
-Generally facts files work best when they are created at provisioning by the provisioning system.  Most workflows with vRA or UCS Director use this method to pass information from the provisioning system to Puppet.  It's relatively easy in any of these systems to create a file with the approriate values on the provisioned system, then install Puppet and let it handle the rest.
+Generally facts files work best when they are created at provisioning by the provisioning system.  Most workflows with vRA or UCS Director use this method to pass information from the provisioning system to Puppet.  It's relatively easy in any of these systems to create a file with the approriate values on the provisioned system, then install Puppet and let it handle the rest.  An example of a file which might get created is below:
 
-xxxx
+facts.txt
+datacenter=portland
+application=doc
+team=TSE
+
+
+## Conclusion
+Hiera is one of the most powerful pieces of Puppet for enabling the reusability of code, but custom facts are a critical component to take advantage of it.  Starting with a sane but simple hierarchy and building a few simple custom facts can greatly accelerate the ability to adopt Puppet across your organization.
