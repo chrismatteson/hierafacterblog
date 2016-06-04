@@ -25,7 +25,7 @@ Quickly from there the conversation moves onto how to create the facts for %{tea
 
 Ultimately the goal is to find a way which can programatically determine the answer to what is the X for this node?  To do this, we look to what pieces of information are already a part of or attached to the node.  I'll outline these appraoches below:
 
-## Hostname
+## Parse Existing Fact
 Sysadmins have been attaching metadata to servers for a very long time in the form of hostnames.  Many organizations still tag information such as datacenter, application and team in the name of the system.  Facter by default already creates a fact for hostname, so we can parse that existing fact to generate new facts.
 
 These examples are custom ruby facts, they can be added into any module in the <module/lib/facter directory as .rb files and will be copied to all of the nodes via pluginsync and executed.  The first example here simply takes the first four characters and turns them into a new fact.
