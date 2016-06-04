@@ -95,4 +95,4 @@ team=TSE
 ```
 
 ## Conclusion
-Hiera is one of the most powerful pieces of Puppet for enabling the reusability of code, but custom facts are a critical component to take advantage of it.  Starting with a sane but simple hierarchy and building a few simple custom facts can greatly accelerate the ability to adopt Puppet across your organization.
+Hiera is one of the most powerful pieces of Puppet for enabling the reusability of code, but custom facts are a critical component to take advantage of it.  Starting with a sane but simple hierarchy and building a few simple custom facts can greatly accelerate the ability to adopt Puppet across your organization.  It's quite likely that you'll need to mix and match and then tweak the examples here to fulfill your organization's needs, but my hope is that this blog will provide sufficent guidence to get people started with Hiera and custom facts.
