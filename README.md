@@ -125,7 +125,7 @@ end
 ```
 
 ## Drop Facts File
-When there is no programatic way to determine the appropriate value, Facter supports the creation of this type of metadata via the create of fact files in /etc/puppetlabs/facter/facts.d .  These files can be in yaml, json or txt format.  There can even be executable scripts in this directory as long as they return key value pairs.  Generally I consider txt to be easiest as it's simply:
+When there is no programatic way to determine the appropriate value, Facter supports the creation of this type of metadata via fact files in /etc/puppetlabs/facter/facts.d .  These files can be in yaml, json or txt format.  There can even be executable scripts in this directory as long as they return key value pairs.  Generally I consider txt to be easiest as it's simply:
 
 ```txt
 key=value
