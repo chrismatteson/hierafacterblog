@@ -78,7 +78,47 @@ end
 ## Read Metadata
 VMWare and AWS allow VMs to be tagged with metadata that can be read elsewhere.  Often times these types of tags are created already for the purpose of chargeback.  Those metadata tags can be turned into custom facts and used with Puppet as well.
 
-xxxx
+The following code creates facter facts for ec2 region and the ec2 tags (credit to Chris Barker and Adrien Thebo for this code snippet)
+
+```ruby
+Facter.add(:ec2_region) do
+  confine do
+    Facter.value(:ec2_metadata)
+  end
+  setcode do
+    region = Facter.value(:ec2_metadata)['placement']['availability-zone'][0..-2]
+    region
+  end
+end
+
+Facter.add(:ec2_tags) do
+  confine do
+    begin
+      require 'aws-sdk-core'
+      true
+    rescue LoadError
+      false
+    end
+  end
+
+  confine do
+    Facter.value(:ec2_metadata)['iam']['info']
+  end
+
+  setcode do
+    instance_id = Facter.value('ec2_metadata')['instance-id']
+    region = Facter.value(:ec2_metadata)['placement']['availability-zone'][0..-2]
+    ec2 = Aws::EC2::Client.new(region: region)
+    instance = ec2.describe_instances(instance_ids: [instance_id])
+    tags = instance.reservations[0].instances[0].tags
+    taghash = { }
+    tags.each do |tag|
+      taghash[tag['key'].downcase] = tag['value'].downcase
+    end
+    taghash
+  end
+end
+```
 
 ## Drop Facts File
 When there is no programatic way to determine the appropriate value, Facter supports the creation of this type of metadata via the create of fact files in /etc/puppetlabs/facter/facts.d .  These files can be in yaml, jsonor txt format.  There can even be executable scripts in this directory as long as they return key value pairs.  Generally I consider txt to be easiest as it's simply:
