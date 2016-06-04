@@ -43,7 +43,7 @@ If we wanted to get the 5th character to the 8th, we could modify the 3rd line a
     Facter.value(:hostname)[4..7]
 ```
 
-Or the 5th to the end of the line:
+Or the 5th character to the end of the line:
 ```ruby
     Facter.value(:hostname)[4..-1]
 ```
