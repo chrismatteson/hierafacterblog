@@ -49,7 +49,9 @@ Or the 5th to the end of the line:
 ```
 
 A more complicated example below which takes from the 6th character until there is a - or the end of the hostname, whichever comes first:
+```ruby
     Facter.value(:hostname)[5..-1][/(.*?)(\-|\z)/,1]
+```
 
 
 ## Match value to table
