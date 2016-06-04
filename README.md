@@ -2,9 +2,11 @@
 
 For the last year and a half I've been representing Puppet as the Technical Solutions Engineer covering all of the accounts headquartered in Silicon Valley. This has been a fantastic opportunity to evangelize configuration management to both clients new and old. One of the areas which I've noticed every new Puppet user runs into quite quickly is how to utilize Hiera effectively. On a fresh install the hierarchy is pretty simple:
 
+```yaml
 :hierarchy:
   - nodes/%{clientcert}
   - common
+```
 
 Basically a scalpel or a shotgun.  Not exactly taking advantage of the power of the tool, but for a good reason, for any additional useful layers, custom facts are required.
 
@@ -12,12 +14,14 @@ On the plus side, Hiera, like nearly all of Puppet, is very customizable and can
 
 Hiera is powerful, but it has some limitations.  Notably there is a functional limit to the number of layers which can be added until performance begins to take a hit, and only one hierarchy can be used at a time for the entire node.  Because of this it makes sense to focus the hierarchy on generic concepts instead of specifically referencing unique items of the business unit or workflow.  The hierarchy which I've recommended the most is along the lines of this:
 
+```yaml
 :hierarchy:
   - nodes/%{clientcert}
   - team/%{team}
   - application/%{application}
   - datacenter/%{datacenter}
   - common
+  ```
 
 The first objection I usually hear is something along the lines of "But we need a layer for X".  To that I challenge clients if they really need the additional layer or if it fits into one of the existing layers.  The vast majority of the differentiation they want tends to fit into the application layer.  Having a ton of different applications with some data overlap is preferable to having too many layers with too little differentiation.
 
