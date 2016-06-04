@@ -53,9 +53,25 @@ A more complicated example below which takes from the 6th character until there 
 
 
 ## Match value to table
-This is ugly, but sometimes it's the best option, particularly when the only way to determine the datacenter is via IP address.  The shortcoming of this approach is that it requires the fact to be updated whenever there is new potential value.
+This is ugly, but sometimes it's the best option, particularly when the only way to determine the datacenter is via IP address.  The shortcoming of this approach is that it requires the fact to be updated whenever there is new potential value.  Utilizing a known fact such as the ip network and case statements we can match up with a value such as datacenter.  Where avoidable, this shouldn't be used just to replace shorthand metadata with full names as it adds unnecessary complication (such as matching 'pdx' in the hostname and replacing with 'portland')
 
-xxxx
+```ruby
+Facter.add(:datacenter) do
+  setcode do
+    network=Facter.value(:network)
+    case network
+    when '10.0.2.0'
+      'portland'
+    when '10.0.3.0'
+      'sydney'
+    when '192.168.0.0'
+      'home'
+    else
+      'unknown'
+    end
+  end
+end
+```
 
 ## Read Metadata
 VMWare and AWS allow VMs to be tagged with metadata that can be read elsewhere.  Often times these types of tags are created already for the purpose of chargeback.  Those metadata tags can be turned into custom facts and used with Puppet as well.
